@@ -39,12 +39,12 @@ namespace AzureCosmosDBSamples
 
 		}
 
-		public async static Task CreateDatabase()
+		public async static Task CreateDatabase(string dbname)
 		{
 			Console.WriteLine();
 			Console.WriteLine(">>> Create Database <<<");
 
-			var result = await CosmosWorker.Client.CreateDatabaseAsync("MyNewDatabase");
+			var result = await CosmosWorker.Client.CreateDatabaseAsync(dbname);
 			var database = result.Resource;
 
 			Console.WriteLine($" Database Id: {database.Id}; Modified: {database.LastModified}");
@@ -111,7 +111,7 @@ namespace AzureCosmosDBSamples
 				PartitionKeyPath = partitionKey,
 			};
 
-			var database = CosmosWorker.Client.GetDatabase("mydb");
+			var database = CosmosWorker.Client.GetDatabase(dbname);
 			var result = await database.CreateContainerAsync(containerDef, throughput);
 			var container = result.Resource;
 
@@ -119,15 +119,15 @@ namespace AzureCosmosDBSamples
 			await ViewContainer(container,dbname); // Intermittent failures!
 		}
 
-		public async static Task DeleteContainer(string containerId)
+		public async static Task DeleteContainer(string containerId, string dbname)
 		{
 			Console.WriteLine();
-			Console.WriteLine($">>> Delete Container {containerId} in mydb <<<");
+			Console.WriteLine($">>> Delete Container {containerId} in {dbname} <<<");
 
-			var container = CosmosWorker.Client.GetContainer("mydb", containerId);
+			var container = CosmosWorker.Client.GetContainer(dbname, containerId);
 			await container.DeleteContainerAsync();
 
-			Console.WriteLine($"Deleted container {containerId} from database mydb");
+			Console.WriteLine($"Deleted container {containerId} from database {dbname}");
 		}
 
 	}
