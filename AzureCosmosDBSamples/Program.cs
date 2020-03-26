@@ -10,7 +10,7 @@ namespace AzureCosmosDBSamples
         static void Main(string[] args)
         {
             CosmosWorker.ViewDatabase().Wait();
-            CosmosWorker.ViewContainers("Families").Wait();
+            CosmosWorker.CreateDatabase("demodb").Wait();
         }
 
         
